@@ -1,0 +1,27 @@
+{
+    "name": "stadvdb",
+    "version": "1.0.0",
+    "description": "Repository of STADVDB MC01",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ronellroxas/stadvdb.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ronellroxas/stadvdb/issues"
+    },
+    "homepage": "https://github.com/ronellroxas/stadvdb#readme",
+    "dependencies": {
+        "express": "^4.17.1",
+        "express-handlebars": "^5.2.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.6"
+    }
+}
