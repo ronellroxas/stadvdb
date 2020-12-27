@@ -8,6 +8,9 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
+//secrets
+require('dotenv').config();
+
 //app settings
 app.set('view engine', 'hbs');
 
@@ -34,3 +37,12 @@ const publicRoute = require('./routes/publicRoutes');
 
 //use routes
 app.use('/', publicRoute);
+
+//database
+const connection = require('./dbConfig');
+
+connection.connect((err) => {
+    if (err) throw err;
+
+    console.log("database connected");
+});
