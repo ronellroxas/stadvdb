@@ -1,10 +1,5 @@
 const mysql = require('mysql');
 
-const connection = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE
-});
+const connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
 
 module.exports = connection;
