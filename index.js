@@ -42,7 +42,7 @@ app.use('/', publicRoute);
 const connection = require('./dbConfig');
 
 connection.connect((err) => {
-    if (err) throw err;
+    console.log(err);
 
     console.log("database connected");
 });
