@@ -1,3 +1,15 @@
 .wrapper {
     margin: 100px;
 }
+
+#table-wrapper {
+    min-width: 100%;
+    max-width: 100%;
+}
+
+table {
+    display: block;
+    overflow-y: auto;
+    height: 300px;
+    max-height: 300px;
+}
