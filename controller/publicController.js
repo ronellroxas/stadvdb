@@ -8,14 +8,26 @@ exports.getHomePage = function(req, res) {
 
 exports.query = function(req, res) {
     const query = req.body.query;
-
     connection.query(query, (err, results, fields) => {
-        if (err) throw err;
+        try {
+            if (err) throw err;
 
-        const names = fields.map(fieldPacket => {
-            return fieldPacket.name;
-        });
+            const names = fields.map(fieldPacket => {
+                return fieldPacket.name;
+            });
 
-        res.status(200).send({ results, names });
+            endConnection();
+            res.status(200).send({ results, names });
+        } catch (e) {
+            res.status(200).send({ err: 'invalid query.' });
+        }
     });
 };
+
+endConnection = function() {
+    connection.end(function(err) {
+        if (err) throw err;
+
+        console.log('closed');
+    });
+}

@@ -37,12 +37,3 @@ const publicRoute = require('./routes/publicRoutes');
 
 //use routes
 app.use('/', publicRoute);
-
-//database
-const connection = require('./dbConfig');
-
-connection.connect((err) => {
-    console.log(err);
-
-    console.log("database connected");
-});

@@ -13,3 +13,8 @@ table {
     height: 300px;
     max-height: 300px;
 }
+
+#error {
+    color: red;
+    font-weight: bold;
+}

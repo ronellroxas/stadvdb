@@ -13,8 +13,6 @@ $(document).ready(function() {
     };
 
     $('#submit').on('click', () => {
-        console.log('click');
-
         const query = $('#query').val();
         if (validate()) {
             //reset table every query
@@ -22,8 +20,10 @@ $(document).ready(function() {
 
 
             //show modal for loading
-            const modal = $('#mymodal');
+            const modal = $('#myModal');
             modal.modal('toggle');
+            const pError = document.getElementById('error');
+            const summary = document.getElementById('result-summary');
 
             $.ajax({
                 type: "POST",
@@ -35,8 +35,19 @@ $(document).ready(function() {
 
                     modal.modal('toggle');
 
+                    //if there are errors
+                    if (response.err) {
+                        modal.modal('toggle');
+                        summary.innerHTML = '';
+                        pError.innerHTML = response.err;
+                        return false;
+                    }
+
                     //if there are results
                     if (response.results.length > 1) {
+                        pError.innerHTML = '';
+                        summary.innerHTML = 'Result: ' + response.results.length + " rows x" + response.names.length + ' columns.';
+
                         //generate table header
                         response.names.forEach(name => {
                             tableHeader.append("<th>" + name + "</th>");
