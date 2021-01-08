@@ -1,13 +1,19 @@
-<h1>Queries</h1>
-<form>
-    <div class="row">
-        <input id="query" type="text" class="form-control form-control-lg col-lg-12 mt-1 mb-3" placeholder="Temporary query textbox">
-    </div>
-    <div class="row">
-        <button id="submit" class="form-control form-control-lg btn btn-primary col-lg-2">Submit</button>
-    </div>
-</form>    
-    <hr class="my-5">
-    <p id="result-summary"></p>
-    <p id="error"></p>
-    {{>resultTable}}
+<div class="row w-100 mb-5">
+    <h1 class="m-auto">Queries</h1>
+</div>
+<div class="row mx-5">
+    {{>queryWrappers title="unoptimized"}}
+    {{>queryWrappers title="optimized"}}
+</div>
+<div class="row mx-5 mt-5">
+    <pre class=" col-md-10">
+        <code type="text" class="language-css">
+                SELECT a query FROM cards;
+        </code>
+    </pre>
+    <button id="submit" class="btn btn-primary col-md-1 ml-4">Submit Query</button>
+</div>    
+<hr class="my-5">
+<p id="result-summary"></p>
+<p id="error"></p>
+{{>resultTable}}

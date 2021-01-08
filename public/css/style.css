@@ -1,5 +1,6 @@
 .wrapper {
-    margin: 100px;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 #table-wrapper {
@@ -17,4 +18,43 @@ table {
 #error {
     color: red;
     font-weight: bold;
+}
+
+.query-box {
+    display: inline-block;
+    text-align: center;
+    border-radius: 5px;
+    padding: 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    transition: all;
+    transition-duration: 200ms;
+}
+
+.query-box:hover {
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+    transition: all;
+    transition-duration: 200ms;
+}
+
+.hover {
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+    transition: all;
+    transition-duration: 200ms;
+}
+
+pre {
+    height: 150px;
+}
+
+button {
+    height: 150px;
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
 }

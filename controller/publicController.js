@@ -16,9 +16,9 @@ exports.query = function(req, res) {
                 return fieldPacket.name;
             });
 
-            endConnection();
             res.status(200).send({ results, names });
         } catch (e) {
+            console.log(e);
             res.status(200).send({ err: 'invalid query.' });
         }
     });
