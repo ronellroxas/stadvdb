@@ -85,11 +85,11 @@ $(document).ready(function() {
                         });
                     });
 
-                    modal.modal('toggle');
                 } else { //no results
                     tableContent.append("<td>No results found</td>");
-                    modal.modal('toggle');
                 }
+            }).done(function() {
+                modal.modal('toggle');
             });
 
         } else {
