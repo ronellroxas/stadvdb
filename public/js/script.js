@@ -88,7 +88,7 @@ $(document).ready(function() {
                 } else { //no results
                     tableContent.append("<td>No results found</td>");
                 }
-            }).done(function() {
+            }).always(function() {
                 modal.modal('toggle');
             });
 
