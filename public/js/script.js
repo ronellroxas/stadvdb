@@ -89,7 +89,7 @@ $(document).ready(function() {
                     tableContent.append("<td>No results found</td>");
                 }
             }).always(function() {
-                modal.modal('toggle');
+                modal.modal('hide');
             });
 
         } else {
