@@ -37,3 +37,6 @@ const publicRoute = require('./routes/publicRoutes');
 
 //use routes
 app.use('/', publicRoute);
+
+//database
+require('./dbConfig');

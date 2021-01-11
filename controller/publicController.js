@@ -19,7 +19,7 @@ exports.query = function(req, res) {
             res.status(200).send({ results, names });
         } catch (e) {
             console.log(e);
-            res.status(200).send({ err: 'invalid query.' });
+            res.status(200).send({ err: e.code });
         }
     });
 };
