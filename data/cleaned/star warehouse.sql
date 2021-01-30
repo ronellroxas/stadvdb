@@ -9,8 +9,7 @@ CREATE TABLE `orders` (
   `payment_sequential` INT,
   `payment_type` VARCHAR(15),
   `payment_installments` INT,
-  `payment_value` DOUBLE,
-  PRIMARY KEY (`order_id`)
+  `payment_value` DOUBLE
 );
 
 CREATE TABLE `sellers` (
@@ -25,10 +24,9 @@ CREATE TABLE `order_reviews` (
   `review_id` VARCHAR(32),
   `review_score` INT,
   `review_comment_title` VARCHAR(50),
-  `review_comment_message` VARCHAR(100),
+  `review_comment_message` VARCHAR(500),
   `review_creation_date` DATETIME,
-  `review_item_timestamp` DATETIME,
-  PRIMARY KEY (`review_id`)
+  `review_item_timestamp` DATETIME
 );
 
 CREATE TABLE `order_customers` (
@@ -40,6 +38,7 @@ CREATE TABLE `order_customers` (
 );
 
 CREATE TABLE `order_items` (
+  `unique_id` INT AUTO_INCREMENT,
   `order_id` VARCHAR(32),
   `order_item_id` VARCHAR(32),
   `product_id` VARCHAR(32),
@@ -49,7 +48,7 @@ CREATE TABLE `order_items` (
   `shipping_limit_date` DATETIME,
   `price` DOUBLE,
   `freight_value` DOUBLE,
-  PRIMARY KEY (`order_item_id`)
+  PRIMARY KEY (`unique_id`)
 );
 
 CREATE TABLE `products` (
@@ -70,7 +69,6 @@ CREATE TABLE `products` (
 -- ALTER TABLES TO LINK FOREIGN KEYS --
 
 ALTER TABLE ORDER_ITEMS
-ADD FOREIGN KEY (`order_id`) REFERENCES orders(`order_id`),
 ADD FOREIGN KEY (`product_id`) REFERENCES products(`product_id`),
 ADD FOREIGN KEY (`seller_id`) REFERENCES sellers(`seller_id`),
-ADD FOREIGN KEY (`review_id`) REFERENCES order_reviews(`review_id`);
+ADD FOREIGN KEY (`customer_id`) REFERENCES order_customers(`customer_id`);
