@@ -33,10 +33,10 @@ app.listen(port, () => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 //declare routes
-//const publicRoute = require('./routes/publicRoutes');
+const publicRoute = require('./routes/publicRoutes');
 
 //use routes
-//app.use('/', publicRoute);
+app.use('/', publicRoute);
 
 //database
 require('./dbConfig');

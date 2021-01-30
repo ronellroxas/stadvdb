@@ -59,7 +59,8 @@ async function ETL() {
      * Transforms the extracted data to fit new data models
      */
     console.log('\nTRANSFORMING:');
-    console.log('sellers');
+
+    console.log('products');
     //Merge sellers and category_name
     data.PRODUCTS.forEach((product) => {
         product.product_category_name_english = null; //initialize field
