@@ -30,6 +30,7 @@ table {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     transition: all;
     transition-duration: 200ms;
+    width: 20%;
 }
 
 .query-box:hover {
@@ -57,4 +58,12 @@ button {
     display: block;
     margin-top: auto;
     margin-bottom: auto;
+}
+
+#input-header div h4 {
+    display: inline;
+}
+
+.language-css {
+    height: 300px;
 }

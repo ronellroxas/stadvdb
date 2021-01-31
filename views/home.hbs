@@ -1,11 +1,10 @@
-<div class="row w-100 mb-5">
-    <h1 class="m-auto">Queries</h1>
+<div class="row w-100 mb-3">
+    <h1 class="m-auto">OLAP Queries</h1>
 </div>
 <div class="row mx-5">
-    {{>queryWrappers title="unoptimized"}}
-    {{>queryWrappers title="optimized"}}
+    {{>queryWrappers}}
 </div>
-<div class="row mx-5 mt-5">
+<div class="row mx-5 mt-2">
     <pre class=" col-md-10">
         <code type="text" class="language-css">
                 SELECT a query FROM cards;
@@ -13,27 +12,23 @@
     </pre>
     <button id="submit" class="btn btn-primary col-md-1 ml-4">Submit Query</button>
 </div>
-<div id="date-options" class="row mx-5 mt-5" >
-    <label id="month-label" for="month" class="col-md-1 col-form-label" hidden>Month</label>
-    <select id="month" class="form-control col-md-2 mr-5" hidden>
-        <option value="1">1</option>    
-        <option value="2">2</option>    
-        <option value="3">3</option>    
-        <option value="4">4</option>    
-        <option value="5">5</option>    
-        <option value="6">6</option>    
-        <option value="7">7</option>    
-        <option value="8">8</option>    
-        <option value="9">9</option>    
-        <option value="10">10</option>
-        <option value="11">11</option>    
-        <option value="12">12</option>    
-    </select>
-    <label id="year-label" for="year" class="col-md-1 col-form-label" hidden>Year</label>
-    <select id="year" class="form-control col-md-4" hidden>
-        <option value="2017">2017</option>    
-        <option value="2018">2018</option>    
-    </select>
+<div id="input-header" class="row mx-5 mt-3" hidden>
+    <div class="col-md-10">
+        <h4 class=''>Inputs</h4><span> (optional)</span>
+    </div>
+</div>
+<div id="state-option" class="row mx-5 mt-2" hidden>
+    <label id="state-label" for="mostatenth" class="col-md-1 col-form-label" >State</label>
+    <input id="state" class="form-control col-md-9" placeholder="Ex. SP, RJ, MG (separate by commas for multiple entries)"></input>
+</div>
+<div id="month-option" class="row mx-5 mt-2" hidden>
+    <label id="month-label" for="month" class="col-md-1 col-form-label" >Month</label>
+    <input id="month" class="form-control col-md-9" placeholder="1 to 12 (separate by commas for multiple entries)"></input>
+</div>
+<div id="year-option" class="row mx-5 mt-2" hidden>
+    <label id="year-label" for="year" class="col-md-1 col-form-label" >Year</label>
+    <input id="year" class="form-control col-md-2" placeholder="Ex. 2016">
+    </input>
 </div>
 <hr class="my-5">
 <p id="result-summary"></p>

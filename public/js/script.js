@@ -1,25 +1,4 @@
 $(document).ready(function() {
-
-    const UNOPTIMIZED_QUERY_LIST = [
-        "SELECT * FROM (SELECT YEAR(order_delivered_customer_date) 'Year', MONTH(order_delivered_customer_date) 'Month', COUNT(order_delivered_customer_date) 'Orders delivered' FROM orders WHERE YEAR(order_delivered_customer_date) = '2017' GROUP BY YEAR(order_delivered_customer_date), MONTH(order_delivered_customer_date) ORDER BY order_delivered_customer_date) `2017` UNION ALL ( SELECT YEAR(order_delivered_customer_date) 'Year', MONTH(order_delivered_customer_date) 'Month', COUNT(order_delivered_customer_date) 'Orders delivered' FROM orders WHERE YEAR(order_delivered_customer_date) = '2018' GROUP BY YEAR(order_delivered_customer_date), MONTH(order_delivered_customer_date) ORDER BY order_delivered_customer_date );",
-        "SELECT YEAR(review_creation_date) 'Year', AVG(review_score) 'Average Score' FROM order_reviews WHERE YEAR(review_creation_date) = '2017' GROUP BY YEAR(review_creation_date) UNION ( SELECT YEAR(review_creation_date) 'Year', AVG(review_score) 'Average Score' FROM order_reviews WHERE YEAR(review_creation_date) = '2018' GROUP BY YEAR(review_creation_date));",
-        "SELECT count(o.order_id) as 'Number of orders',c.customer_city as 'City' FROM customers c LEFT JOIN orders o  ON c.customer_id = o.customer_id WHERE YEAR(o.order_approved_at) = YEAR_VAL GROUP BY c.customer_city ORDER BY count(o.order_id) desc LIMIT 5; ",
-        'SELECT YEAR(o.order_approved_at) AS "Buy_Year", MONTH(o.order_approved_at) AS "Buy_Month", i.product_id as "Top 5 products" , count(i.product_id) as "Number Sold" FROM orders o CROSS JOIN order_items i  WHERE i.order_id = o.order_id GROUP BY i.product_id, YEAR(o.order_approved_at), MONTH(o.order_approved_at) HAVING Buy_Year = YEAR_VAL AND Buy_Month = MONTH_VAL ORDER BY count(i.product_id) desc, i.product_id asc  LIMIT 5; ',
-        "SELECT catname.product_category_name_english 'Category Name', COUNT(oi.order_id) 'Order Count' FROM category_name catname INNER JOIN products pr ON catname.product_category_name=pr.product_category_name JOIN order_items oi ON pr.product_id=oi.product_id GROUP BY catname.product_category_name_english ORDER BY COUNT(oi.order_id) DESC LIMIT 5;",
-        'SELECT s.seller_state AS "State", YEAR(o.order_approved_at) AS "Sell_Year", MONTH(o.order_approved_at) AS "Sell_Month", s.seller_id AS "Top 5 Gaining Sellers", SUM(i.price) AS "Total Income" FROM sellers s INNER JOIN order_items i ON s.seller_id = i.seller_id INNER JOIN orders o ON i.order_id = o.order_id  GROUP BY s.seller_id, s.seller_state, YEAR(o.order_approved_at), MONTH(o.order_approved_at) HAVING Sell_Year = 2018 AND Sell_Month = 5 AND State = "SP" ORDER BY SUM(i.price) desc LIMIT 5; ',
-        "SELECT cn.product_category_name_english as 'Product category name', AVG(ors.review_score) as 'Average review score' FROM order_reviews ors JOIN orders o ON ors.order_id = o.order_id JOIN order_items oi ON oi.order_id = o.order_id JOIN products p ON oi.product_id = p.product_id JOIN category_name cn ON p.product_category_name = cn.product_category_name GROUP BY p.product_category_name ORDER BY AVG(ors.review_score) desc LIMIT 5; "
-    ]; //ALL QUERIES UPDATED - JAN 11 2021
-
-    const OPTIMIZED_QUERY_LIST = [
-        "SELECT YEAR(order_delivered_customer_date) 'Year', MONTH(order_delivered_customer_date) 'Month', COUNT(order_delivered_customer_date) 'Orders delivered' FROM orders WHERE YEAR(order_delivered_customer_date) BETWEEN '2017' AND '2018' GROUP BY YEAR(order_delivered_customer_date), MONTH(order_delivered_customer_date) ORDER BY order_delivered_customer_date; ",
-        "SELECT YEAR(review_creation_date) 'Year', AVG(review_score) 'Average Score' FROM order_reviews WHERE YEAR(review_creation_date) BETWEEN '2017' AND '2018' GROUP BY YEAR(review_creation_date);",
-        "SELECT count(o.order_id) as 'Number of orders',c.customer_city as 'City' FROM customers c INNER JOIN orders o  ON c.customer_id = o.customer_id WHERE YEAR(o.order_approved_at) = YEAR_VAL GROUP BY c.customer_city ORDER BY count(o.order_id) desc LIMIT 5;",
-        'SELECT YEAR(o.order_approved_at) AS "Buy_Year", MONTH(o.order_approved_at) AS "Buy_Month", i.product_id as "Top 5 products" , count(i.product_id) as "Number Sold" FROM order_items i INNER JOIN orders o ON i.order_id = o.order_id WHERE YEAR(o.order_approved_at) = YEAR_VAL AND  MONTH(o.order_approved_at) = MONTH_VAL GROUP BY i.product_id ORDER BY count(i.product_id) desc, i.product_id asc  LIMIT 5; ',
-        "SELECT catname.product_category_name_english 'Category Name', COUNT(oi.order_id) 'Order Count' FROM category_name catname INNER JOIN products pr ON catname.product_category_name=pr.product_category_name INNER JOIN order_items oi ON pr.product_id=oi.product_id GROUP BY catname.product_category_name_english ORDER BY COUNT(oi.order_id) DESC LIMIT 5; ",
-        'SELECT s.seller_state AS "State", YEAR(o.order_approved_at) AS "Sell_Year", MONTH(o.order_approved_at) AS "Sell_Month", s.seller_id AS "Top 5 Gaining Sellers", SUM(i.price) AS "Total Income" FROM sellers s INNER JOIN order_items i ON s.seller_id = i.seller_id INNER JOIN orders o ON i.order_id = o.order_id  WHERE  s.seller_state = "SP" AND YEAR(o.order_approved_at) = 2018 AND MONTH(o.order_approved_at) = 5 GROUP BY s.seller_state, s.seller_id ORDER BY SUM(i.price) desc LIMIT 5; ',
-        "SELECT cn.product_category_name_english as 'Product category name', ors.average_review as 'Average review score' FROM ( SELECT order_id, AVG(review_score) 'average_review' FROM order_reviews GROUP BY order_id ) ors JOIN orders o ON ors.order_id = o.order_id JOIN order_items oi ON oi.order_id = o.order_id JOIN products p ON oi.product_id = p.product_id JOIN category_name cn ON p.product_category_name = cn.product_category_name GROUP BY p.product_category_name ORDER BY ors.average_review desc LIMIT 5; "
-    ];
-
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -32,7 +11,7 @@ $(document).ready(function() {
             return true;
         }
     };
-
+    var queryId = null;
     //selecting query
     $(document).on('click', '.query-box', (event) => {
         var queryBox = $(event)[0].target;
@@ -40,40 +19,63 @@ $(document).ready(function() {
             queryBox = queryBox.parentElement;
         }
 
-        //get query type (optimized or non)
-        const queryType = queryBox.parentElement.children[0].innerHTML;
         //get query number (1-7)
-        const queryId = queryBox.children[0].innerHTML.split(" ")[1];
+        queryId = queryBox.children[0].innerHTML;
 
-        if (queryType === 'unoptimized queries') {
-            $('code').html(UNOPTIMIZED_QUERY_LIST[queryId - 1]);
+        if (queryId) {
+            $('#input-header').removeAttr('hidden');
+            $('code').html(EMPTY[queryId]);
         } else {
-            $('code').html(OPTIMIZED_QUERY_LIST[queryId - 1]);
+            $('#input-header').attr('hidden', '');
         }
+        if (queryId === 'Drill Down' || queryId === 'Dice' || queryId === 'Slice') {
+            if (queryId !== 'Slice') {
+                $('#month-option').removeAttr('hidden');
+            } else {
+                $('#month-option').attr('hidden', '');
+            }
+            $('#year-option').removeAttr('hidden');
+        } else {
+            $('#month-option').attr('hidden', '');
+            $('#year-option').attr('hidden', '');
+        }
+        if (queryId === 'Dice') {
+            $('#state-option').removeAttr('hidden');
+        } else {
+            $('#state-option').attr('hidden', '');
+        }
+    });
 
-        if (queryId == 3 || queryId == 4) {
-            $('#year-label').removeAttr('hidden');
-            $('#year').removeAttr('hidden');
+    $('#state').on('change', function() {
+        $('code').html(INPUT[queryId]);
+    });
+
+    $('#month').change(function() {
+        var month = parseInt($('#month').val());
+        if (month < 1 || month > 12 || isNaN(month)) {
+            $('#month').css({ border: '2px solid red' });
+            $('#submit').attr('disabled', '');
+        } else {
+            $('#month').css({ border: '' });
+            $('code').html(INPUT[queryId]);
         }
-        if (queryId == 4) {
-            $('#month-label').removeAttr('hidden');
-            $('#month').removeAttr('hidden');
-        }
-        if (queryId != 3 && queryId != 4) {
-            $('#year-label').attr('hidden', '');
-            $('#year').attr('hidden', '');
-            $('#month-label').attr('hidden', '');
-            $('#month').attr('hidden', '');
-        }
-        if (queryId != 4) {
-            $('#month-label').attr('hidden', '');
-            $('#month').attr('hidden', '');
+    });
+
+    $('#year').on('change', function() {
+        var year = parseInt($('#year').val());
+        if (year.toString().length != 4 || isNaN(year)) {
+            $('#year').css({ border: '2px solid red' });
+            $('#submit').attr('disabled', '');
+        } else {
+            $('#year').css({ border: '' });
+            $('code').html(INPUT[queryId]);
         }
     });
 
     $('#submit').on('click', () => {
         if (validate()) {
             var query = $('code').html();
+            query = query.replace(/<br>/g, '');
 
             //replace input values
             if (query.includes('YEAR_VAL')) {
