@@ -51,19 +51,33 @@ $(document).ready(function() {
     });
 
     $('#month').change(function() {
-        var month = parseInt($('#month').val());
-        if (month < 1 || month > 12 || isNaN(month)) {
-            $('#month').css({ border: '2px solid red' });
-            $('#submit').attr('disabled', '');
+        var month = $('#month').val();
+        if (month.includes(',')) {
+            var values = month.trim().split(',');
+            values.forEach(value => {
+                value = parseInt(value);
+                if (value < 1 || value > 12 || isNaN(value)) {
+                    $('#month').css({ border: '2px solid red' });
+                } else {
+                    $('#month').css({ border: '' });
+                    $('code').html(INPUT[queryId]);
+                }
+            });
+
         } else {
-            $('#month').css({ border: '' });
-            $('code').html(INPUT[queryId]);
+            month = parseInt(month);
+            if ((month < 1 || month > 12 || isNaN(month)) && month) {
+                $('#month').css({ border: '2px solid red' });
+            } else {
+                $('#month').css({ border: '' });
+                $('code').html(INPUT[queryId]);
+            }
         }
     });
 
     $('#year').on('change', function() {
         var year = parseInt($('#year').val());
-        if (year.toString().length != 4 || isNaN(year)) {
+        if ((year.toString().length != 4 || isNaN(year)) && year) {
             $('#year').css({ border: '2px solid red' });
             $('#submit').attr('disabled', '');
         } else {
@@ -79,10 +93,49 @@ $(document).ready(function() {
 
             //replace input values
             if (query.includes('YEAR_VAL')) {
-                query = query.replace("YEAR_VAL", $('#year').val());
+                year = $('#year').val().trim();
+                if (!year) {
+                    query = query.replace(/ (AND)+ (\()+YEAR\(o.order_approved_at\) = YEAR_VAL(\))+/g, '');
+                } else {
+                    query = query.replace(/YEAR_VAL/g, year);
+                }
             }
             if (query.includes('MONTH_VAL')) {
-                query = query.replace("MONTH_VAL", $('#month').val());
+                var month = $('#month').val().trim();
+                if (!month) {
+                    query = query.replace(/AND \(MONTH\(o.order_approved_at\) = MONTH_VAL\)/g, '');
+                } else {
+                    if (month.includes(',')) {
+                        var values = month.split(',');
+                        var str = "";
+                        values.forEach(entry => {
+                            str += entry + ' OR MONTH(o.order_approved_at)= ';
+                        });
+                        str = str.substr(0, str.length - 31);
+                        month = str;
+                    }
+                    query = query.replace(/MONTH_VAL/g, month);
+                }
+            }
+            if (query.includes('STATE_VAL')) {
+                var state = $('#state').val().trim();
+                if (!state) {
+                    query = query.replace(/\(oc.customer_state = STATE_VAL \) (AND)+ /g, '');
+                } else {
+                    if (state.includes(',')) {
+                        var values = state.split(',');
+                        var str = "";
+                        values.forEach(entry => {
+                            str += "'" + entry + "'" + ' OR oc.customer_state = ';
+                        });
+                        str = str.substr(0, str.length - 24);
+                        console.log(str);
+                        state = str;
+                    } else {
+                        state = "'" + state + "'";
+                    }
+                    query = query.replace(/STATE_VAL/g, state);
+                }
             }
 
             //reset table every query
