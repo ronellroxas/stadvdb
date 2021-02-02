@@ -53,7 +53,7 @@ pre {
     height: 150px;
 }
 
-button {
+.btn-primary {
     height: 150px;
     display: block;
     margin-top: auto;

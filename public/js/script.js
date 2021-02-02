@@ -28,7 +28,7 @@ $(document).ready(function() {
         } else {
             $('#input-header').attr('hidden', '');
         }
-        if (queryId === 'Drill Down' || queryId === 'Dice' || queryId === 'Slice') {
+        if (queryId === 'Dice' || queryId === 'Slice') {
             if (queryId !== 'Slice') {
                 $('#month-option').removeAttr('hidden');
             } else {
@@ -36,6 +36,9 @@ $(document).ready(function() {
             }
             $('#year-option').removeAttr('hidden');
         } else {
+            if (queryId === 'Drill Down') {
+                $('#drill-option').removeAttr('hidden');
+            }
             $('#month-option').attr('hidden', '');
             $('#year-option').attr('hidden', '');
         }
@@ -44,6 +47,28 @@ $(document).ready(function() {
         } else {
             $('#state-option').attr('hidden', '');
         }
+    });
+
+    $('#drill-year').on('click', function() {
+        $('#drill-month').removeClass('btn-info');
+        $('#drill-month').addClass('btn-light');
+        $(this).removeClass('btn-light');
+        $(this).addClass('btn-info');
+        $('#year-option').removeAttr('hidden');
+        $('#year').focus();
+        $('#month-option').attr('hidden', '');
+        $('code').html(INPUT['Drill Down Month']);
+    });
+
+    $('#drill-month').on('click', function() {
+        $('#drill-year').removeClass('btn-info');
+        $('#drill-year').addClass('btn-light');
+        $(this).removeClass('btn-light');
+        $(this).addClass('btn-info');
+        $('#month-option').removeAttr('hidden');
+        $('#year-option').removeAttr('hidden');
+        $('#month').focus();
+        $('code').html(INPUT['Drill Down Day']);
     });
 
     $('#state').on('change', function() {
@@ -129,7 +154,6 @@ $(document).ready(function() {
                             str += "'" + entry + "'" + ' OR oc.customer_state = ';
                         });
                         str = str.substr(0, str.length - 24);
-                        console.log(str);
                         state = str;
                     } else {
                         state = "'" + state + "'";
