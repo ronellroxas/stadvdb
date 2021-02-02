@@ -1,11 +1,39 @@
 const EMPTY = { //NO input values
     'Roll-up': '',
-    'Drill Down': "SELECT count(o.order_id) as 'Number of orders',c.customer_city as 'City', YEAR(o.order_approved_at) as Year <br> " +
-        "FROM customers c <br> " +
-        "INNER JOIN orders o <br> " +
-        "ON c.customer_id = o.customer_id <br> " +
-        "GROUP BY CUBE (c.customer_city, YEAR(o.order_approved_at));",
-    'Dice': "SELECT oc.customer_state as 'State', YEAR(o.order_approved_at) as 'Year ordered', MONTH(o.order_approved_at) as 'Month ordered', count(o.order_approved_at) as 'Number of orders' <br> " +
+
+
+    'Drill Down': "SELECT <br>"+
+                  "   YEAR(o.order_approved_at) as 'Year', <br>" +
+                  "   c.customer_state as 'State', c.customer_city as 'City', <br>" +
+                  "   count(o.order_id) as 'Number of orders' <br>" +
+                  "FROM	<br>" +
+                  "   order_customers c <br>" +
+                  "INNER JOIN order_items i ON c.customer_id = i.customer_id <br>" + 
+                  "INNER JOIN orders o ON o.order_id = i.order_id <br>" + 
+                  "GROUP BY <br>" +
+                  "   YEAR(o.order_approved_at), <br>" +
+                  "   c.customer_state, <br>" +
+                  "   c.customer_city WITH ROLLUP <br>" +
+                  "UNION ( <br>" +  
+                  "SELECT null, c.customer_state as 'State', c.customer_city as 'City', count(o.order_id) as 'Number of orders' <br>" + 
+                  "FROM order_customers c <br>" +
+                  "INNER JOIN order_items i ON c.customer_id = i.customer_id <br>" +
+	              "INNER JOIN orders o ON o.order_id = i.order_id <br>" +
+	              "GROUP BY c.customer_state, c.customer_city WITH ROLLUP) <br>" +
+                  "UNION ( <br>" + 
+	              "SELECT  YEAR(o.order_approved_at) as 'Year', null, c.customer_city as 'City',  count(o.order_id) as 'Number of orders' <br>" +
+	              "FROM order_customers c <br>" +
+	              "INNER JOIN order_items i ON c.customer_id = i.customer_id <br>" +
+	              "INNER JOIN orders o ON o.order_id = i.order_id <br>" +
+	              "GROUP BY YEAR(o.order_approved_at), c.customer_city WITH ROLLUP)  <br>" +
+                  "UNION ( <br>" +  
+	              "SELECT null,	null, c.customer_city as 'City', count(o.order_id) as 'Number of orders' <br>" +
+                  "FROM order_customers c <br>" +
+                  "INNER JOIN order_items i ON c.customer_id = i.customer_id <br>" +
+	              "INNER JOIN orders o ON o.order_id = i.order_id <br>" +
+	              "GROUP BY c.customer_city WITH ROLLUP) <br>" +
+                  "ORDER BY Year DESC, State DESC, City DESC; <br>",
+        'Dice': "SELECT oc.customer_state as 'State', YEAR(o.order_approved_at) as 'Year ordered', MONTH(o.order_approved_at) as 'Month ordered', count(o.order_approved_at) as 'Number of orders' <br> " +
         "FROM order_items oi <br> " +
         "JOIN order_customers oc <br> " +
         "ON oi.customer_id = oc.customer_id <br> " +
