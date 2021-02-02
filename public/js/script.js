@@ -28,6 +28,15 @@ $(document).ready(function() {
         } else {
             $('#input-header').attr('hidden', '');
         }
+
+        //reset fields
+        $('#month').val('');
+        $('#year').val('');
+        $('#state').val('');
+        var drill = $('.btn-info');
+        drill.removeClass('btn-info');
+        drill.addClass('btn-light');
+
         if (queryId === 'Dice' || queryId === 'Slice') {
             if (queryId !== 'Slice') {
                 $('#month-option').removeAttr('hidden');
@@ -35,9 +44,12 @@ $(document).ready(function() {
                 $('#month-option').attr('hidden', '');
             }
             $('#year-option').removeAttr('hidden');
+            $('#drill-option').attr('hidden', '');
         } else {
             if (queryId === 'Drill Down') {
                 $('#drill-option').removeAttr('hidden');
+            } else {
+                $('#drill-option').attr('hidden', '');
             }
             $('#month-option').attr('hidden', '');
             $('#year-option').attr('hidden', '');
@@ -46,6 +58,10 @@ $(document).ready(function() {
             $('#state-option').removeAttr('hidden');
         } else {
             $('#state-option').attr('hidden', '');
+        }
+        if (queryId === 'Roll-up') {
+            $('#drill-option').attr('hidden', '');
+            $('#year-option').removeAttr('hidden');
         }
     });
 
