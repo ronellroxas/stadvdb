@@ -37,6 +37,10 @@ $(document).ready(function() {
         drill.removeClass('btn-info');
         drill.addClass('btn-light');
 
+        var roll = $('.btn-info');
+        roll.removeClass('btn-info');
+        roll.addClass('btn-light');
+
         if (queryId === 'Dice' || queryId === 'Slice') {
             if (queryId !== 'Slice') {
                 $('#month-option').removeAttr('hidden');
@@ -45,10 +49,17 @@ $(document).ready(function() {
             }
             $('#year-option').removeAttr('hidden');
             $('#drill-option').attr('hidden', '');
+            $('#roll-option').attr('hidden', '');
         } else {
             if (queryId === 'Drill Down') {
                 $('#drill-option').removeAttr('hidden');
-            } else {
+                $('#roll-option').attr('hidden', '');
+            } else if (queryId === 'Roll-up') {
+                $('#roll-option').removeAttr('hidden');
+                $('#drill-option').attr('hidden', '');
+            }
+            else{
+                $('#roll-option').attr('hidden', '');
                 $('#drill-option').attr('hidden', '');
             }
             $('#month-option').attr('hidden', '');
@@ -59,10 +70,14 @@ $(document).ready(function() {
         } else {
             $('#state-option').attr('hidden', '');
         }
-        if (queryId === 'Roll-up') {
-            $('#drill-option').attr('hidden', '');
-            $('#year-option').removeAttr('hidden');
-        }
+    });
+
+    $('#roll-item').on('click', function() {
+        $('#roll-item').removeClass('btn-info');
+        $('#roll-item').addClass('btn-light');
+        $(this).removeClass('btn-light');
+        $(this).addClass('btn-info');
+        $('code').html(INPUT['Roll-up']);
     });
 
     $('#drill-year').on('click', function() {
